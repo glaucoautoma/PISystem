@@ -5,11 +5,11 @@
 	PV.deriveVisualizationFromBase(symbolVis);
 
 	var definition = {
-		typeName: "dispediter",
-		displayName: 'Editor de Disponibilidade',
+		typeName: "insertupdatedeletevalue",
+		displayName: 'Insert Update Delete Value',
 		visObjectType: symbolVis,
 		datasourceBehavior: PV.Extensibility.Enums.DatasourceBehaviors.Multiple,
-		iconUrl: '/Scripts/app/editor/symbols/ext/Icons/dispediter.png',
+		iconUrl: '/Scripts/app/editor/symbols/ext/Icons/insertupdatedeletevalue.png',
 		getDefaultConfig: function () {
 			return {
 				DataShape: 'Timeseries',
@@ -64,7 +64,7 @@
 			}
 		};
 
-		scope.dispediter = function (index, type) {
+		scope.insertUpdateDeleteValue = function (index, type) {
 
 			scope.inputInEdition = true;
 
@@ -89,13 +89,13 @@
 
 			if (userLang == "pt" || userLang == "pt-BR") {
 
-				var dateTimeSplit = datastream.Time.split(' ');
+				var dateTimeSplit = datastream.Time.replace(',', '').split(' ');
 				var dateSplit = dateTimeSplit[0].split('/');
 				var timeSplit = dateTimeSplit[1].split(':');
 				dateTimeString = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0], timeSplit[0], timeSplit[1], timeSplit[2])
 
 				data = {
-					"Timestamp": dateTimeString.replace(',', '').toISOString(),
+					"Timestamp": dateTimeString.toISOString(),
 					"Value": datastream.Value.replace(',', '.')
 				};
 			}
@@ -133,9 +133,15 @@
 				});
 		};
 
+		scope.setDisponibility = function (value, index) {
+			scope.Values[index].Value = String(value)
+		}
+
 		scope.newValue = function () {
 
 			scope.inputInEdition = true;
+			scope.disp = 1;
+			scope.indisp = 0;
 
 			var valuesLength = scope.Values.length;
 			var values;
